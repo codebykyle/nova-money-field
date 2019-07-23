@@ -48,6 +48,7 @@ class Money extends Number
 
     public function alignRight() {
         $this->textAlign = 'right';
+        return $this;
     }
 
     /**
