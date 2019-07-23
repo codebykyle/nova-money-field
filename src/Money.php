@@ -46,6 +46,10 @@ class Money extends Number
             });
     }
 
+    public function alignRight() {
+        $this->textAlign = 'right';
+    }
+
     /**
      * The value in database is store in minor units (cents for dollars).
      */
