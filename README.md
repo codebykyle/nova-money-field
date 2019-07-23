@@ -1,3 +1,7 @@
+# This is a fork
+Needed some extra features from this field. If you're looking for the original, please see:
+https://github.com/vyuldashev/nova-money-field
+
 # Money Field for Laravel Nova
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codeByKyle/nova-money-field.svg?style=flat-square)](https://packagist.org/packages/codeByKyle/nova-money-field)
