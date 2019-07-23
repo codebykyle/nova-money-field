@@ -1,5 +1,5 @@
 {
-  "name": "vyuldashev/nova-money-field",
+  "name": "codeByKyle/nova-money-field",
   "description": "A Laravel Nova field for Money.",
   "keywords": [
     "laravel",
@@ -12,13 +12,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Vyuldashev\\NovaMoneyField\\": "src/"
+      "CodeByKyle\\NovaMoneyField\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Vyuldashev\\NovaMoneyField\\FieldServiceProvider"
+        "CodeByKyle\\NovaMoneyField\\FieldServiceProvider"
       ]
     }
   },

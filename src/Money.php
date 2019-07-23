@@ -1,6 +1,6 @@
 <?php
 
-namespace Vyuldashev\NovaMoneyField;
+namespace CodeByKyle\NovaMoneyField;
 
 use Money\Currency;
 use Laravel\Nova\Fields\Number;
