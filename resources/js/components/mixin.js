@@ -12,5 +12,9 @@ export default {
                 maximumFractionDigits: this.field.subUnits
             });
         },
+
+        isPositive() {
+            return this.field.value > 0
+        }
     }
 }

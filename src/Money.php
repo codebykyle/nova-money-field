@@ -8,6 +8,7 @@ use Money\Currencies\ISOCurrencies;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Currencies\AggregateCurrencies;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Exception;
 
 class Money extends Number
 {
@@ -18,64 +19,82 @@ class Money extends Number
      */
     public $component = 'nova-money-field';
 
-    public $inMinorUnits;
+    protected $currency;
+    protected $colorCallback;
+    protected $upIsGood = true;
 
-    public function __construct($name, $currency = 'USD', $attribute = null, $resolveCallback = null)
+    public function __construct($name, $attribute = null, callable $resolveCallback = null)
     {
         parent::__construct($name, $attribute, $resolveCallback);
-
-        $this->withMeta([
-            'currency' => $currency,
-            'subUnits' => $this->subunits($currency),
-        ]);
-
-        $this->step(1 / $this->minorUnit($currency));
-
-        $this
-            ->resolveUsing(function ($value) use ($currency) {
-                return $this->inMinorUnits ? $value / $this->minorUnit($currency) : (float) $value;
-            })
-            ->fillUsing(function (NovaRequest $request, $model, $attribute, $requestAttribute) use ($currency) {
-                $value = $request[$requestAttribute];
-
-                if ($this->inMinorUnits) {
-                    $value *= $this->minorUnit($currency);
-                }
-
-                $model->{$attribute} = $value;
-            });
     }
 
-    public function alignRight() {
+    public function currency($currency_code='USD') {
+        $this->currency = $currency_code;
+        return $this;
+    }
+
+    public function colors($colors_callback) {
+        $this->colorCallback = $colors_callback;
+        return $this;
+    }
+
+    public function upIsGood($up_is_good = true) {
+        $this->upIsGood = $up_is_good;
+        return $this;
+    }
+
+    protected function defaultColorCallback($value, $up_is_good) {
+        $good_color = "text-success-dark";
+        $default_color = "text-90";;
+        $bad_color = "text-danger-dark";
+
+
+        if ($value == 0 || empty($value)) {
+            return $default_color;
+        }
+
+        if ($up_is_good) {
+            if ($value > 0) {
+                return $good_color;
+            } else {
+                return $bad_color;
+            }
+        } else {
+            if ($value > 0) {
+                return $bad_color;
+            }  else {
+                return $good_color;
+            }
+        }
+    }
+
+    public function resolveColor() {
+        try {
+            if (isset($this->colorCallback)) {
+                return call_user_func($this->colorCallback, $this->value, $this->upIsGood);
+            }
+
+            return $this->defaultColorCallback($this->value, $this->upIsGood);
+        } catch (Exception $e) {
+            throw new Exception("Error trying to get the color for {$this->value}]");
+        }
+    }
+
+    /**
+     * Set the alignment of the field to right-aligned
+     *
+     * @return $this
+     */
+    public function alignRight()
+    {
         $this->textAlign = 'right';
         return $this;
     }
 
-    /**
-     * The value in database is store in minor units (cents for dollars).
-     */
-    public function storedInMinorUnits()
-    {
-        $this->inMinorUnits = true;
-
-        return $this;
-    }
-
-    public function locale($locale)
-    {
-        return $this->withMeta(['locale' => $locale]);
-    }
-
-    public function subUnits(string $currency)
-    {
-        return (new AggregateCurrencies([
-            new ISOCurrencies(),
-            new BitcoinCurrencies(),
-        ]))->subunitFor(new Currency($currency));
-    }
-
-    public function minorUnit($currency)
-    {
-        return 10 ** $this->subUnits($currency);
+    public function jsonSerialize() {
+        return array_merge([
+            'currency' => $this->currency,
+            'color' => $this->resolveColor()
+        ], parent::jsonSerialize());
     }
 }
