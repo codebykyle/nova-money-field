@@ -7,14 +7,14 @@ export default {
 
             return this.field.value.toLocaleString(this.field.locale, {
                 style: 'currency',
-                currency: this.field.currency,
+                currency: 'USD',
                 minimumFractionDigits: 2,
-                maximumFractionDigits: this.field.subUnits
+                maximumFractionDigits: 2
             });
         },
 
-        isPositive() {
-            return this.field.value > 0
+        colorClass() {
+            return this.field.color
         }
     }
 }

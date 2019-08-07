@@ -1,5 +1,7 @@
 <template>
-    <span class="money">{{ formattedValue }}</span>
+    <span class="money font-semibold" :class="colorClass">
+        {{ formattedValue }}
+    </span>
 </template>
 
 <script>
