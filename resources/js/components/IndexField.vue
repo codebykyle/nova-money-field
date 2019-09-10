@@ -5,10 +5,10 @@
 </template>
 
 <script>
-    import mixin from './mixin';
+    import CurrencyFieldMixin from './mixin';
 
     export default {
         props: ['resourceName', 'field'],
-        mixins: [mixin],
+        mixins: [CurrencyFieldMixin],
     }
 </script>
