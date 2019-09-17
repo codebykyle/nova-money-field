@@ -3,9 +3,12 @@
         <template slot="field">
             <div class="flex flex-wrap items-stretch w-full relative">
                 <div class="flex -mr-px">
-                    <span class="flex items-center bg-30 rounded-r-none px-3 whitespace-no-wrap text-sm form-control form-input-bordered">{{ field.currency }}</span>
+                    <span class="flex items-center bg-30 rounded-r-none px-3 whitespace-no-wrap text-sm form-control form-input-bordered">
+                        {{ field.currency }}
+                    </span>
                 </div>
-                <input :id="field.attribute" type="number"
+                <input :id="field.attribute"
+                       type="number"
                        class="flex-1 relative focus:border-blue focus:shadow form-control form-input form-input-bordered"
                        style="border-top-left-radius: 0;border-bottom-left-radius: 0;"
                        v-bind="extraAttributes"
@@ -26,7 +29,7 @@
         mixins: [FormField, HandlesValidationErrors],
 
         props: ['resourceName', 'resourceId', 'field'],
-        
+
         computed: {
             defaultAttributes() {
                 return {
@@ -52,7 +55,7 @@
                 }
             },
         },
-    
+
         methods: {
             /*
              * Set the initial, internal value for the field.

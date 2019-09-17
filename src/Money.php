@@ -23,27 +23,13 @@ class Money extends Number
      * Currency Code
      * @var string
      */
-    protected $currency;
+    protected $currency = '$';
 
     /**
      * Color class callback
      * @var callable
      */
     protected $colorCallback;
-
-    /**
-     * If color support is enabled
-     *
-     * @var bool
-     */
-    protected $enableColors = false;
-
-    /**
-     * If a positive number is considered a "good thing" for color support
-     *
-     * @var bool
-     */
-    protected $upIsGood = true;
 
     /**
      *
@@ -56,6 +42,7 @@ class Money extends Number
     public function __construct($name, $attribute = null, callable $resolveCallback = null)
     {
         parent::__construct($name, $attribute, $resolveCallback);
+        $this->step(0.01);
     }
 
     /**
@@ -64,7 +51,7 @@ class Money extends Number
      * @param string $currency_code
      * @return $this
      */
-    public function currency($currency_code='USD') {
+    public function currency($currency_code='$') {
         $this->currency = $currency_code;
         return $this;
     }
