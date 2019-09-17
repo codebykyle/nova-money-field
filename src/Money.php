@@ -32,6 +32,18 @@ class Money extends Number
     protected $colorCallback;
 
     /**
+     * Enable colors
+     * @var boolean
+     */
+    protected $enableColors = false;
+
+    /**
+     * Color support: If a number is positive, is it considered 'good'
+     *
+     * @var boolean
+     */
+    protected $upIsGood = true;
+    /**
      *
      * Money constructor.
      *
