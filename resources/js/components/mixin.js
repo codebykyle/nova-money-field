@@ -10,16 +10,6 @@ export default {
     },
     computed: {
         formattedValue() {
-            console.log({
-                value: this.value,
-                isNull: this.isNullValue,
-                format: this.format,
-                prefix: this.prefix,
-                numbro: numbro(this.value),
-                final: this.prefix + numbro(this.value).format(this.format)
-
-            });
-
             if (!this.isNullValue) {
                 return this.prefix + numbro(new String(this.value)).format(this.format)
             }
